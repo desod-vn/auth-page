@@ -1,10 +1,8 @@
 export default {
-  // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
-  // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'auth-client',
+    title: 'Đăng nhập',
     htmlAttrs: {
       lang: 'en'
     },
@@ -19,37 +17,65 @@ export default {
     ]
   },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/notifications', ssr: false },
   ],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
-    // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/fontawesome',
   ],
 
-  // Modules: https://go.nuxtjs.dev/config-modules
+
+  fontawesome: {
+    icons: {
+      brands: true,
+    }
+  },
+
   modules: [
-    // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: 'http://localhost/api/',
+    proxy: false,
+    credentials: false,
+  },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: 'login',
+            method: 'post',
+            propertyName: 'token',
+          },
+          user: {
+            url: 'user',
+            method: 'get',
+            propertyName: 'user'
+          },
+          logout: { 
+            url: 'logout',
+            method: 'post'
+          },
+          tokenRequired: true,
+          logout: false
+        }
+      },
+    },
+  },
+
   build: {
   }
 }
