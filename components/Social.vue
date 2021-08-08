@@ -30,6 +30,7 @@
 <script>
 export default {
   components: true,
+  
   methods: {
     loginWith() {
       this.$notify({

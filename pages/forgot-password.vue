@@ -41,7 +41,7 @@
           <button
             type="submit"
             class="bg-blue-400 text-white text-xl p-3 w-full hover:bg-blue-600"
-            @click.prevent="login"
+            @click.prevent="forgot"
           >
             QUÊN MẬT KHẨU
           </button>
@@ -83,16 +83,21 @@ export default {
       return true
     },
 
-    async login() {
+    async forgot() {
       if (this.isValid(this.user))
         try {
-          const res = await this.$auth.login({ data: this.user })
-          if (res.data.status) this.$router.push({ path: '/' })
+          const res = await this.$axios.$post('forgot', this.user)
+          if (res.status)
+            this.$notify({
+              type: 'success',
+              duration: 5000,
+              title: 'Yêu cầu đã được gửi đi thành công vui lòng kiểm tra email của bạn, tin nhắn sẽ được gửi trong vòng vài phút tới.',
+            })
           else
             this.$notify({
               type: 'warn',
               duration: 5000,
-              title: 'Thông tin tài khoản hoặc mật khẩu không chính xác',
+              title: 'Địa chỉ email chưa được đăng ký, vui lòng kiểm tra lại.',
             })
         } catch (err) {
           this.error = ''
